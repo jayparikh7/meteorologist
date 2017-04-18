@@ -17,9 +17,16 @@ class GeocodingController < ApplicationController
 
 
 
-    @latitude = "Replace this string with your answer."
+    url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + @street_address.gsub(" ", "+")
+    parsed_data = JSON.parse(open(url).read)
+    latitude = parsed_data["results"][0]["geometry"]["location"]["lat"]
+    longitude = parsed_data["results"][0]["geometry"]["location"]["lng"]
 
-    @longitude = "Replace this string with your answer."
+
+
+    @latitude = latitude
+
+    @longitude = longitude
 
     render("geocoding/street_to_coords.html.erb")
   end
